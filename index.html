@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cảm ơn bạn 💖</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        background: linear-gradient(180deg, #fff5f8, #ffeef3);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .screen {
+        position: absolute;
+        text-align: center;
+        transition: opacity 1s ease;
+    }
+
+    /* Màn hình lời cảm ơn */
+    #message {
+        font-size: 28px;
+        font-weight: 600;
+        color: #ff4d6d;
+        opacity: 1;
+        z-index: 2;
+    }
+
+    /* Màn hình QR */
+    #qr {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    #qr img {
+        width: 260px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    #qr p {
+        margin-top: 16px;
+        font-size: 18px;
+        color: #333;
+    }
+
+    /* Trái tim */
+    .heart {
+        position: absolute;
+        bottom: -20px;
+        color: #ff4d6d;
+        font-size: 20px;
+        animation: floatUp 5s linear forwards;
+        opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-110vh) scale(1.8);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Lời cảm ơn -->
+<div id="message" class="screen">
+    💖 Lời chúc thật tuyệt vời 💖
+</div>
+
+<!-- QR -->
+<div id="qr" class="screen">
+    <img src="qr.png" alt="QR ngân hàng">
+    <p>Cảm ơn vì món quà của bạn 💝</p>
+</div>
+
+<script>
+    // Tạo trái tim bay
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (16 + Math.random() * 20) + "px";
+        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+
+    setInterval(createHeart, 300);
+
+    // Chuyển sang QR sau 4 giây
+    setTimeout(() => {
+        document.getElementById("message").style.opacity = 0;
+        document.getElementById("qr").style.opacity = 1;
+    }, 4000);
+</script>
+
+</body>
+</html>
