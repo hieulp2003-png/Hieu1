@@ -1,120 +1,154 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Cảm ơn bạn 💖</title>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
 
-    body {
-        height: 100vh;
-        background: linear-gradient(180deg, #fff5f8, #ffeef3);
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fff5f8, #ffeef3);
+}
 
-    .screen {
-        position: absolute;
-        text-align: center;
-        transition: opacity 1s ease;
-    }
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
 
-    /* Màn hình lời cảm ơn */
-    #message {
-        font-size: 28px;
-        font-weight: 600;
-        color: #ff4d6d;
-        opacity: 1;
-        z-index: 2;
-    }
+/* Text screen */
+#message {
+  font-size: 26px;
+  font-weight: 600;
+  color: #ff4d6d;
+  text-align: center;
+  padding: 20px;
+  animation: fadeIn 1.2s ease;
+}
 
-    /* Màn hình QR */
-    #qr {
-        opacity: 0;
-        z-index: 1;
-    }
+/* QR screen */
+#qr {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1.2s ease;
+}
 
-    #qr img {
-        width: 260px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    }
+#qr img {
+  width: 260px;
+  max-width: 80vw;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+}
 
-    #qr p {
-        margin-top: 16px;
-        font-size: 18px;
-        color: #333;
-    }
+#qr p {
+  margin-top: 14px;
+  font-size: 18px;
+  color: #333;
+}
 
-    /* Trái tim */
-    .heart {
-        position: absolute;
-        bottom: -20px;
-        color: #ff4d6d;
-        font-size: 20px;
-        animation: floatUp 5s linear forwards;
-        opacity: 0.8;
-    }
+/* Hearts */
+.heart {
+  position: absolute;
+  bottom: -30px;
+  color: #ff4d6d;
+  animation: floatUp linear forwards;
+  opacity: 0.85;
+}
 
-    @keyframes floatUp {
-        0% {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-        100% {
-            transform: translateY(-110vh) scale(1.8);
-            opacity: 0;
-        }
-    }
+/* Money */
+.money {
+  position: absolute;
+  top: -40px;
+  font-size: 22px;
+  animation: fall linear forwards;
+  opacity: 0.9;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-120vh) scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<!-- Lời cảm ơn -->
-<div id="message" class="screen">
-    💖 Lời chúc thật tuyệt vời 💖
-</div>
+  <div id="message">💖 Lời chúc thật tuyệt vời 💖</div>
 
-<!-- QR -->
-<div id="qr" class="screen">
-    <img src="qr.png" alt="QR ngân hàng">
+  <div id="qr">
+    <img id="qrImage" />
     <p>Cảm ơn vì món quà của bạn 💝</p>
+  </div>
+
 </div>
 
 <script>
-    // Tạo trái tim bay
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "❤";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (16 + Math.random() * 20) + "px";
-        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+/* ======================
+   🔧 SỬA TÊN ẢNH QR Ở ĐÂY
+   ====================== */
+const QR_IMAGE_NAME = "qr.png.JPG"; // ← đổi đúng tên ảnh trong repo
 
-        document.body.appendChild(heart);
+document.getElementById("qrImage").src = QR_IMAGE_NAME;
 
-        setTimeout(() => {
-            heart.remove();
-        }, 6000);
-    }
+/* Hearts */
+function createHeart() {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "❤";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.fontSize = 16 + Math.random() * 20 + "px";
+  h.style.animationDuration = 4 + Math.random() * 3 + "s";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 7000);
+}
+setInterval(createHeart, 300);
 
-    setInterval(createHeart, 300);
+/* Money */
+function createMoney() {
+  const m = document.createElement("div");
+  m.className = "money";
+  m.innerText = "💸";
+  m.style.left = Math.random() * 100 + "vw";
+  m.style.animationDuration = 4 + Math.random() * 3 + "s";
+  document.body.appendChild(m);
+  setTimeout(() => m.remove(), 7000);
+}
+setInterval(createMoney, 600);
 
-    // Chuyển sang QR sau 4 giây
-    setTimeout(() => {
-        document.getElementById("message").style.opacity = 0;
-        document.getElementById("qr").style.opacity = 1;
-    }, 4000);
+/* Switch screen */
+setTimeout(() => {
+  document.getElementById("message").style.display = "none";
+  document.getElementById("qr").style.display = "flex";
+}, 4000);
 </script>
 
 </body>
